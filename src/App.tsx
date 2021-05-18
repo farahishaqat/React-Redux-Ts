@@ -1,19 +1,34 @@
 import React from 'react';
-// import logo fro m './logo.svg';
-import './App.css';
-import Home from './components/HomePage';
+import NewNoteInput from './NewNoteInput';
+import { NoteState } from './noteReducer';
+import {useSelector,useDispatch} from "react-redux"
 
-// import { Provider } from "react-redux";
-// import {createStore } from "redux";  
-// import reducer from "./store/reducer";
 
-// const store = createStore(reducer);
 
 function App() {
+
+  const notes = useSelector<NoteState, NoteState["notes"]>  ( (state)=> state.notes)
+
+  // const notes = useSelector<NoteState, NoteState["notes"]>((state )=> state.notes)
+  
+  const dispatch = useDispatch()
+
+  const addNote=(note:string)=>{
+dispatch({type:"ADD_NOTE",payload:note})
+
+  }
+
   return (
-    <Home/>
- 
-    
+    <>
+    <NewNoteInput addNote={addNote} />
+    <hr/>
+    <ul>
+
+      {notes.map((note)=>{ 
+        return  <li key={note}> {note}</li>   })}
+      
+    </ul>
+    </>
   );
 }
 
